@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"start": "vite dev",
+		"proxy": "wrangler dev node_modules/cfw-bindings-wrangler-bridge/worker/index.js --remote --env staging --ip 127.0.0.1 --port 8787",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:integration && npm run test:unit",
@@ -11,7 +12,10 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"d1:gen": "drizzle-kit generate:sqlite --config=drizzleD1.config.ts",
+		"d1:mig:local": "wrangler d1 migrations apply cf_ecommerce_db --local",
+		"d1:mig:prod": "wrangler d1 migrations apply cf_ecommerce_db "
 	},
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
@@ -25,6 +29,10 @@
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.16",
+		"cfw-bindings-wrangler-bridge": "^0.10.1",
+		"dotenv": "^16.3.1",
+		"drizzle-kit": "^0.20.10",
+		"drizzle-orm": "^0.29.3",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
@@ -39,7 +47,8 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
-		"vitest": "^1.0.0"
+		"vitest": "^1.0.0",
+		"wrangler": "^3.22.4"
 	},
 	"type": "module",
 	"dependencies": {
@@ -50,6 +59,7 @@
 		"formsnap": "^0.4.2",
 		"mode-watcher": "^0.1.2",
 		"radix-icons-svelte": "^1.2.1",
+		"rxjs": "^7.8.1",
 		"svelte-sonner": "^0.3.11",
 		"sveltekit-superforms": "^1.13.2",
 		"tailwind-merge": "^2.2.0",

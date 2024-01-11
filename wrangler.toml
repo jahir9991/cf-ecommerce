@@ -1,0 +1,20 @@
+name = "cf-ecommerce"
+compatibility_date = "2023-11-08"
+compatibility_flags = ["nodejs_compat"]
+
+account_id = "556675f35212283cadf2ad1dbb0da3f0"
+
+
+vars = { ENVIRONMENT = "dev" ,BASE_URL = "dev.example.com"}
+d1_databases =[{ binding = "DB" ,database_name = "cf_ecommerce_db" , database_id = "956d0355-f47d-4605-ad64-f0be16f1ba7e"  , migrations_dir = "migrationsD1" }]
+
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" ,BASE_URL = "staging.example.com"}
+d1_databases =[{ binding = "DB" ,database_name = "cf_ecommerce_db" , database_id = "956d0355-f47d-4605-ad64-f0be16f1ba7e"  , migrations_dir = "migrationsD1" }]
+
+
+[env.production]
+vars = { ENVIRONMENT = "production" ,BASE_URL = "example.com"}
+d1_databases =[{ binding = "DB" ,database_name = "cf_ecommerce_db" , database_id = "956d0355-f47d-4605-ad64-f0be16f1ba7e" , migrations_dir = "migrationsD1" }]
+
