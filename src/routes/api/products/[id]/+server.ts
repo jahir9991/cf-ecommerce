@@ -1,4 +1,3 @@
-import type { ProductSelect } from '@/db/schemas/Product.entity.js';
 import { ProductService } from '@/services/product.service.js';
 import { json } from '@sveltejs/kit';
 
@@ -29,8 +28,10 @@ export const PUT = async ({ locals, request, params: { id } }) => {
 		let formData: any = Object.fromEntries(await request.formData());
 
 		console.log('payload', formData);
+		// validation.....
+		const payload = formData;
 
-		const response = await modelService.updateOne(DB, R2, id, formData);
+		const response = await modelService.updateOne(DB, R2, id, payload);
 
 		return json(response);
 	} catch (error: any) {

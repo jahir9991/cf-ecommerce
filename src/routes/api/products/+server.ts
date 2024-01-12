@@ -1,9 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { insertProductDto } from '@/db/schemas/Product.entity.js';
+import { KitError } from '@/app/exceptions/KitError.js';
+import { HttpStatus } from '@/app/exceptions/httpStatus.enum.js';
+import {} from '@/db/schemas/Product.entity.js';
+import { insertProductDto } from '@/dto/product.dto.js';
 import { SERVER_ENV } from '@/environments/ENV.server.js';
 import { ProductService } from '@/services/product.service.js';
 import { StorageService } from '@/services/storage.service.js';
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
+import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { ZodError, z } from 'zod';
 
 const modelService = new ProductService();
 
@@ -21,33 +25,63 @@ export async function GET({ url, locals, platform }) {
 
 		const response = await modelService.getAll(DB, options, selectFields, withMeta);
 		return json(response);
-	} catch (error) {
-		return error;
+	} catch (err) {
+		throw error;
 	}
 }
 
 export async function POST({ request, locals, platform }) {
 	try {
-		if (!locals.DB) throw new Error('no db found');
+		if (!locals.DB)
+			throw KitError(400, {
+				message: 'no db found'
+			});
+		if (!locals.R2)
+			throw KitError(400, {
+				message: 'no R2 found...'
+			});
+
+
 		const DB = locals.DB;
 		const R2 = locals.R2;
+		console.log('r2', R2);
 
 		let formData: any = Object.fromEntries(await request.formData());
 
-		// const payload: any = {
-		// 	name: formData.name,
-		// 	description: formData.description,
-		// 	price: formData.price,
-		// 	quantity: formData.quantity
-		// };
+		let productData: any;
 
-		const productData: any = insertProductDto.parse(formData);
+		try {
+			productData = insertProductDto.parse(formData);
+		} catch (err) {
+			
+			let h = KitError(400, {
+				message: 'invalid payload...',
+				validations: err
+			}) ;
+
+			console.log('h>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',err);
+			
+
+
+
+			throw h;
+		}
 
 		console.log('productData', productData);
 		const response = await modelService.createOne(DB, R2, productData);
 
 		return json(response);
-	} catch (error) {
-		return json({ error });
+	} catch (err) {
+		console.log('i am here', isZodError(err));
+
+		throw err;
 	}
 }
+
+const isKitError = (value: any): value is KitError => {
+	return value instanceof KitError;
+  };
+
+  const isZodError = (value: any): value is ZodError => {
+	return value instanceof ZodError;
+  };

@@ -1,6 +1,6 @@
-import { sql, type InferSelectModel } from 'drizzle-orm';
+import { sql, type InferInsertModel, type InferSelectModel } from 'drizzle-orm';
 import { integer, sqliteTable, sqliteView, text } from 'drizzle-orm/sqlite-core';
-import { createInsertSchema } from 'drizzle-zod';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { nanoid } from 'nanoid';
 import { z } from 'zod';
 export const Product = sqliteTable('products', {
@@ -21,8 +21,7 @@ export const Product = sqliteTable('products', {
 	deletedBy: text('deleted_by')
 });
 
-export type ProductSelect = InferSelectModel<typeof Product>;
+// export type ProductSelectDto = InferSelectModel<typeof Product>;
+// export type ProductInsertDto = InferInsertModel<typeof Product>;
 
 export const ProductView = sqliteView('product_view').as((qb) => qb.select().from(Product));
-
-export const insertProductDto = createInsertSchema(Product);

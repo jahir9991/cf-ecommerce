@@ -19,6 +19,7 @@
 		"d1:mig:prod": "wrangler d1 migrations apply cf_ecommerce_db "
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "^4.20231218.0",
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@playwright/test": "^1.28.1",
