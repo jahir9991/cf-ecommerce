@@ -5,11 +5,13 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			DB: DrizzleD1Database;
+			R2: R2Bucket
 		}
 		// interface PageData {}
 		interface Platform {
 			env?: {
 				DB: D1Database;
+				R2: R2Bucket;
 			};
 			context: {
 				waitUntil(promise: Promise<unknown>): void;

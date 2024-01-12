@@ -1,3 +1,3 @@
-import { ProductD1 } from './Product.entity';
+import { Product, ProductView } from './Product.entity';
 
-export { ProductD1 };
+export { Product, ProductView };

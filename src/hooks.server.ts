@@ -1,9 +1,12 @@
 import type { Handle } from '@sveltejs/kit';
-import { injectD1 } from './db/D1.connect';
+import { injectD1, injectR2 } from './db/D1.connect';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith('/api')) {
+
+		
 		await injectD1(event);
+		await injectR2(event);
 	}
 
 	if (event.url.pathname.startsWith('/api') && event.request.method === 'OPTIONS') {

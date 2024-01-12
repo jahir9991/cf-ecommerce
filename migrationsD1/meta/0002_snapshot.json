@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "c6678a14-cd8c-4620-8b7e-e9feb3c16e3b",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "adc67857-3617-40f9-80a4-fb45c3dda9a1",
+  "prevId": "22788e3d-0d80-4466-b79b-8f6a0a8d0854",
   "tables": {
     "products": {
       "name": "products",
@@ -34,6 +34,20 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "is_active": {

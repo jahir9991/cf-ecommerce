@@ -5,8 +5,22 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1704971583839,
-      "tag": "0000_noisy_the_twelve",
+      "when": 1705067791957,
+      "tag": "0000_fair_drax",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1705068837275,
+      "tag": "0001_dusty_daredevil",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1705075848673,
+      "tag": "0002_crazy_stellaris",
       "breakpoints": true
     }
   ]
