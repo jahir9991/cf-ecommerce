@@ -1,6 +1,7 @@
 <script>
 	import '../app.pcss';
-	import Header from './Header.svelte';
+	import Footer from './@layout/Footer.svelte';
+	import Header from './@layout/Header.svelte';
 	import './styles.css';
 </script>
 
@@ -10,10 +11,9 @@
 	<main>
 		<slot />
 	</main>
+	<Footer></Footer>
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
+	
 </div>
 
 <style>
