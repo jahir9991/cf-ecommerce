@@ -1,3 +1,5 @@
+import { KitError } from '@/app/exceptions/KitError.js';
+import { UpdateProductDto } from '@/dto/product.dto.js';
 import { ProductService } from '@/services/product.service.js';
 import { json } from '@sveltejs/kit';
 
@@ -29,9 +31,20 @@ export const PUT = async ({ locals, request, params: { id } }) => {
 
 		console.log('payload', formData);
 		// validation.....
-		const payload = formData;
+		let productData: any;
 
-		const response = await modelService.updateOne(DB, R2, id, payload);
+		try {
+			productData = UpdateProductDto.parse(formData);
+		} catch (err) {
+			let h = KitError(400, {
+				message: 'invalid payload...',
+				validations: err
+			});
+			console.log('h>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', err);
+			throw h;
+		}
+
+		const response = await modelService.updateOne(DB, R2, id, productData);
 
 		return json(response);
 	} catch (error: any) {

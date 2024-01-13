@@ -41,7 +41,6 @@ export async function POST({ request, locals, platform }) {
 				message: 'no R2 found...'
 			});
 
-
 		const DB = locals.DB;
 		const R2 = locals.R2;
 		console.log('r2', R2);
@@ -53,16 +52,12 @@ export async function POST({ request, locals, platform }) {
 		try {
 			productData = insertProductDto.parse(formData);
 		} catch (err) {
-			
 			let h = KitError(400, {
 				message: 'invalid payload...',
 				validations: err
-			}) ;
+			});
 
-			console.log('h>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',err);
-			
-
-
+			console.log('h>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', err);
 
 			throw h;
 		}
@@ -80,8 +75,8 @@ export async function POST({ request, locals, platform }) {
 
 const isKitError = (value: any): value is KitError => {
 	return value instanceof KitError;
-  };
+};
 
-  const isZodError = (value: any): value is ZodError => {
+const isZodError = (value: any): value is ZodError => {
 	return value instanceof ZodError;
-  };
+};
