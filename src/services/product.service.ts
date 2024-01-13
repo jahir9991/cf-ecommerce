@@ -144,6 +144,8 @@ export class ProductService {
 				}
 			}
 
+			payload.updatedAt = new Date().toISOString();
+
 			const result = await DB.update(this.model)
 				.set(payload as any)
 				.where(eq(this.model.id, id))

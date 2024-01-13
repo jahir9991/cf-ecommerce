@@ -47,9 +47,8 @@ export const PUT = async ({ locals, request, params: { id } }) => {
 		const response = await modelService.updateOne(DB, R2, id, productData);
 
 		return json(response);
-	} catch (error: any) {
-		console.log('err', error);
-		return json({ error: error.message }, { status: 400 });
+	} catch (err: any) {
+		throw err;
 	}
 };
 
