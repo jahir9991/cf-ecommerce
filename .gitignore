@@ -3,7 +3,7 @@ node_modules
 /build
 /.svelte-kit
 /package
-.env
+*.env
 .env.*
 !.env.example
 .vercel
@@ -11,8 +11,9 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-/wrangler.toml
-wrangler.toml
-# ./wrangler.toml
 
-*.env
+/.wrangler
+wrangler.toml
+
+
+
