@@ -14,7 +14,7 @@ export class ProductService {
 	getAll = async (
 		DB: DrizzleD1Database,
 		options: { q?: string; limit?: number; page?: number },
-		selectFields?: string[],
+		selectFields: string[],
 		withMeta: boolean = true
 	): Promise<SuccessResponse> => {
 		try {
@@ -65,7 +65,7 @@ export class ProductService {
 	getOne = async (
 		DB: DrizzleD1Database,
 		id: string,
-		selectFields?: string[]
+		selectFields: string[]
 	): Promise<SuccessResponse> => {
 		try {
 			console.log('getOne', id);
@@ -94,7 +94,7 @@ export class ProductService {
 		DB: DrizzleD1Database,
 		R2: R2Bucket,
 		payload,
-		selectFields?: string[]
+		selectFields: string[]
 	): Promise<SuccessResponse> => {
 		try {
 			if (payload.image satisfies File) {
@@ -137,7 +137,7 @@ export class ProductService {
 		}
 	};
 
-	updateOne = async (DB: DrizzleD1Database, R2: R2Bucket, id, payload, selectFields?: string[]) => {
+	updateOne = async (DB: DrizzleD1Database, R2: R2Bucket, id, payload, selectFields: string[]) => {
 		try {
 			if (payload.image as File satisfies File) {
 				try {
@@ -177,7 +177,7 @@ export class ProductService {
 		DB: DrizzleD1Database,
 		R2: R2Bucket,
 		id: string,
-		selectFields?: string[]
+		selectFields: string[]
 	): Promise<SuccessResponse> => {
 		try {
 			const deletedData = await DB.delete(this.model)

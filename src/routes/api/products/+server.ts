@@ -30,7 +30,7 @@ export async function GET({ url, locals, platform }) {
 	}
 }
 
-export async function POST({ request, locals, platform }) {
+export async function POST({ request, locals, platform, url }) {
 	try {
 		if (!locals.DB)
 			throw KitError(400, {
@@ -46,24 +46,23 @@ export async function POST({ request, locals, platform }) {
 		console.log('r2', R2);
 
 		let formData: any = Object.fromEntries(await request.formData());
+		const selectFields = JSON.parse(url.searchParams.get('fields') ?? '[]') ?? [];
 
 		let productData: any;
 
 		try {
 			productData = insertProductDto.parse(formData);
 		} catch (err) {
-			let h = KitError(400, {
-				message: 'invalid payload...',
-				validations: err
-			});
-
 			console.log('h>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', err);
 
-			throw h;
+			throw {
+				message: 'invalid payload...',
+				validations: err
+			};
 		}
 
 		console.log('productData', productData);
-		const response = await modelService.createOne(DB, R2, productData);
+		const response = await modelService.createOne(DB, R2, productData, selectFields);
 
 		return json(response);
 	} catch (err) {

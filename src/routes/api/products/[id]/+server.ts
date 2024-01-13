@@ -10,6 +10,7 @@ export async function GET({ url, params, locals }) {
 		if (!locals.DB) throw new Error('no db found');
 		const DB = locals.DB;
 		const selectFields = JSON.parse(url.searchParams.get('fields') ?? '[]') ?? [];
+
 		const id = params.id;
 
 		const response = await modelService.getOne(DB, id, selectFields);
@@ -21,13 +22,15 @@ export async function GET({ url, params, locals }) {
 	}
 }
 
-export const PUT = async ({ locals, request, params: { id } }) => {
+export const PUT = async ({ locals, url, request, params: { id } }) => {
 	try {
 		if (!locals.DB) throw new Error('no db found');
 		const DB = locals.DB;
 		const R2 = locals.R2;
 
 		let formData: any = Object.fromEntries(await request.formData());
+
+		const selectFields = JSON.parse(url.searchParams.get('fields') ?? '[]') ?? [];
 
 		console.log('payload', formData);
 		// validation.....
@@ -44,7 +47,7 @@ export const PUT = async ({ locals, request, params: { id } }) => {
 			throw h;
 		}
 
-		const response = await modelService.updateOne(DB, R2, id, productData);
+		const response = await modelService.updateOne(DB, R2, id, productData, selectFields);
 
 		return json(response);
 	} catch (err: any) {
@@ -52,12 +55,15 @@ export const PUT = async ({ locals, request, params: { id } }) => {
 	}
 };
 
-export const DELETE = async ({ locals, params: { id } }) => {
+export const DELETE = async ({ locals, url, params: { id } }) => {
 	try {
 		if (!locals.DB) throw new Error('no db found');
 		const DB = locals.DB;
+		const R2 = locals.R2;
 
-		const response = await modelService.deleteOne(DB, id);
+		const selectFields = JSON.parse(url.searchParams.get('fields') ?? '[]') ?? [];
+
+		const response = await modelService.deleteOne(DB, R2, id, selectFields);
 
 		return json(response);
 	} catch (error: any) {
