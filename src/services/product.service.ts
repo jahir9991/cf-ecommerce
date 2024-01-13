@@ -62,7 +62,11 @@ export class ProductService {
 			});
 		}
 	};
-	getOne = async (DB: DrizzleD1Database, id: string, selectFields): Promise<SuccessResponse> => {
+	getOne = async (
+		DB: DrizzleD1Database,
+		id: string,
+		selectFields?: string[]
+	): Promise<SuccessResponse> => {
 		try {
 			console.log('getOne', id);
 
@@ -86,7 +90,12 @@ export class ProductService {
 		}
 	};
 
-	createOne = async (DB: DrizzleD1Database, R2: R2Bucket, payload): Promise<SuccessResponse> => {
+	createOne = async (
+		DB: DrizzleD1Database,
+		R2: R2Bucket,
+		payload,
+		selectFields?: string[]
+	): Promise<SuccessResponse> => {
 		try {
 			if (payload.image satisfies File) {
 				try {
@@ -104,7 +113,9 @@ export class ProductService {
 				}
 			}
 
-			const result = await DB.insert(this.model).values(payload).returning();
+			const result = await DB.insert(this.model)
+				.values(payload)
+				.returning(getDbSelectkey(selectFields, this.model));
 
 			return {
 				success: true,
@@ -126,7 +137,7 @@ export class ProductService {
 		}
 	};
 
-	updateOne = async (DB: DrizzleD1Database, R2: R2Bucket, id, payload) => {
+	updateOne = async (DB: DrizzleD1Database, R2: R2Bucket, id, payload, selectFields?: string[]) => {
 		try {
 			if (payload.image as File satisfies File) {
 				try {
@@ -149,7 +160,7 @@ export class ProductService {
 			const result = await DB.update(this.model)
 				.set(payload as any)
 				.where(eq(this.model.id, id))
-				.returning()
+				.returning(getDbSelectkey(selectFields, this.model))
 				.get();
 
 			return { success: true, payload: result };
@@ -162,9 +173,16 @@ export class ProductService {
 		}
 	};
 
-	deleteOne = async (DB: DrizzleD1Database, id: string): Promise<SuccessResponse> => {
+	deleteOne = async (
+		DB: DrizzleD1Database,
+		R2: R2Bucket,
+		id: string,
+		selectFields?: string[]
+	): Promise<SuccessResponse> => {
 		try {
-			const deletedData = await DB.delete(this.model).where(eq(this.model.id, id)).returning();
+			const deletedData = await DB.delete(this.model)
+				.where(eq(this.model.id, id))
+				.returning(getDbSelectkey(selectFields, this.model));
 
 			if (deletedData[0]) {
 				return {
@@ -184,21 +202,4 @@ export class ProductService {
 			});
 		}
 	};
-
-	// fineByUserName = async (DB: DrizzleD1Database, username: string) => {
-	// 	try {
-	// 		const existUser = await DB.select()
-	// 			.from(UserD1)
-	// 			.where(eq(sql`lower(${UserD1.username})`, username.toLowerCase()))
-	// 			.get();
-
-	// 		return { success: true, payload: existUser };
-	// 	} catch (error: any) {
-	// 		throw new MyHTTPException(400, {
-	// 			message: 'something went Wrong',
-	// 			devMessage: 'this is dev message',
-	// 			error
-	// 		});
-	// 	}
-	// };
 }

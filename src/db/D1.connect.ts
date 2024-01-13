@@ -5,7 +5,6 @@ import { drizzle } from 'drizzle-orm/d1';
 export const getDevD1 = async (dbName) => {
 	try {
 		const db= new D1Database$(dbName) as D1Database;
-		console.log('mmmm', db);
 
 		return db;
 	} catch (error) {

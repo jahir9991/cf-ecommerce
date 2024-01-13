@@ -11,7 +11,7 @@ const isValidImage = (data: File) => {
 export const insertProductDto = createInsertSchema(Product, {
 	name: z.string().min(5).max(100),
 	price: z
-		.string()
+		.any()
 		.refine((data) => !isNaN(Number(data)), {
 			message: 'Value must be a valid number'
 		})

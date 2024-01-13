@@ -55,6 +55,7 @@
 	"type": "module",
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.490.0",
+		"@graphql-tools/schema": "^10.0.2",
 		"@internationalized/date": "^3.5.1",
 		"aws-sdk": "^2.1534.0",
 		"bits-ui": "^0.14.0",
@@ -62,6 +63,8 @@
 		"cmdk-sv": "^0.0.12",
 		"drizzle-zod": "^0.5.1",
 		"formsnap": "^0.4.2",
+		"graphql": "^16.8.1",
+		"graphql-yoga": "^5.1.1",
 		"mode-watcher": "^0.1.2",
 		"nanoid": "^5.0.4",
 		"radix-icons-svelte": "^1.2.1",

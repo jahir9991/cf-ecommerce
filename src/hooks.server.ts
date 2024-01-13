@@ -2,11 +2,17 @@ import { error, json, type Handle, type HandleServerError } from '@sveltejs/kit'
 import { injectD1, injectR2 } from './db/D1.connect';
 import { KitError } from './app/exceptions/KitError';
 import { HttpStatus } from './app/exceptions/httpStatus.enum';
+import { GraphQLServer } from './graphQL/graphQL.server';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith('/api')) {
 		await injectD1(event);
 		await injectR2(event);
+	} else if (event.url.pathname.startsWith('/graphql')) {
+		await injectD1(event);
+		await injectR2(event);
+
+		return GraphQLServer(event);
 	}
 
 	if (event.url.pathname.startsWith('/api') && event.request.method === 'OPTIONS') {
@@ -31,12 +37,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
 	const errorId = crypto.randomUUID();
 
-	console.log('errorId', errorId);
+	console.log('errorId', error);
 
 	return {
-		message,
-		statusCode: HttpStatus.BAD_GATEWAY,
+		message: 'something went wrong',
+		// statusCode: status,
 		errorId,
-		error
+		// error
 	};
 };
